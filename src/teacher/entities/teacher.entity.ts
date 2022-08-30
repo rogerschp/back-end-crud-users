@@ -1,5 +1,4 @@
 import { Organization } from './../../organization/entities/organization.entity';
-import { Teacher } from '../../teacher/entities/teacher.entity';
 import {
   Column,
   Entity,
@@ -7,27 +6,19 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Type } from 'class-transformer';
 
 @Entity()
-export class User {
+export class Teacher {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name_user: string;
+  cpf: string;
 
-  @Column()
-  birthday: Date;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
-
-  @OneToOne(() => Teacher)
-  @JoinColumn()
-  idTeacher: Teacher;
+  @Type(() => Date)
+  @Column('text')
+  date_valid: Date;
 
   @OneToOne(() => Organization)
   @JoinColumn()
