@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
+    UsersModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -14,7 +15,6 @@ import { UsersModule } from './users/users.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    UsersModule,
   ],
 })
 export class AppModule {}
