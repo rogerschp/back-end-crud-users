@@ -2,9 +2,15 @@ import { IsNotEmpty } from 'class-validator';
 
 export class UpdateUserDto {
   @IsNotEmpty()
-  readonly name_user: string;
+  name_user: string;
   @IsNotEmpty()
-  readonly email: string;
+  birthday: Date;
   @IsNotEmpty()
-  readonly password: string;
+  email: string;
+  @IsNotEmpty()
+  password: string;
+  @IsNotEmpty()
+  organizationId: number;
+  @IsNotEmpty()
+  teacherId: number;
 }

@@ -1,4 +1,3 @@
-import { FilterUserDto } from './dto/filter-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -11,21 +10,20 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
 } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('/create-users')
   createUser(@Body() CreateUserDto: CreateUserDto): Promise<User> {
     return this.usersService.createUser(CreateUserDto);
   }
 
-  @Get()
-  getAllUsers(@Query() FilterUserDto: FilterUserDto): Promise<User[]> {
-    return this.usersService.getAllUsers(FilterUserDto);
+  @Get('/getAll/:id')
+  getAllUsers(@Param('id') organizationId: number): Promise<User[]> {
+    return this.usersService.getAllUsers(organizationId);
   }
 
   @Get('/:id')

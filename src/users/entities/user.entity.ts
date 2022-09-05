@@ -3,10 +3,13 @@ import { Teacher } from '../../teacher/entities/teacher.entity';
 import {
   Column,
   Entity,
+  IsNull,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Type } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -16,7 +19,8 @@ export class User {
   @Column()
   name_user: string;
 
-  @Column()
+  @Type(() => Date)
+  @Column('text')
   birthday: Date;
 
   @Column()
@@ -25,11 +29,17 @@ export class User {
   @Column()
   password: string;
 
-  @OneToOne(() => Teacher)
-  @JoinColumn()
-  idTeacher: Teacher;
+  @Column({ nullable: true })
+  teacherId: number;
 
-  @OneToOne(() => Organization)
-  @JoinColumn()
-  idOrganization: Organization;
+  @Column()
+  organizationId: number;
+
+  @OneToOne(() => Teacher, (teacher) => teacher.user)
+  @JoinColumn({ name: 'teacherId', referencedColumnName: 'id' })
+  teacher: Teacher;
+
+  @ManyToOne(() => Organization, (organization) => organization.user)
+  @JoinColumn({ name: 'organizationId', referencedColumnName: 'id' })
+  organization: Organization;
 }

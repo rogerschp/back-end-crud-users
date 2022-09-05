@@ -25,12 +25,8 @@ export class OrganizationService {
   }
 
   async getAllOrganizations(): Promise<Organization[]> {
-    const query = await this.organizationRepository.createQueryBuilder(
-      'organization',
-    );
-    const organizations = await query.getMany();
-
-    return organizations;
+    const query = await this.organizationRepository.find({});
+    return query;
   }
 
   async getOrganizationById(id: number): Promise<Organization> {

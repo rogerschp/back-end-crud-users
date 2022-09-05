@@ -1,3 +1,5 @@
+import { Organization } from './../../organization/entities/organization.entity';
+import { Teacher } from './../../teacher/entities/teacher.entity';
 import { IsDate, IsEmail, IsNotEmpty, Max, Min } from 'class-validator';
 
 export class CreateUserDto {
@@ -5,7 +7,6 @@ export class CreateUserDto {
   name_user: string;
 
   @IsNotEmpty()
-  @IsDate()
   birthday: Date;
 
   @IsNotEmpty()
@@ -13,7 +14,9 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
-  @Min(8)
-  @Max(16)
   password: string;
+
+  organizationId: number;
+
+  teacherId: number;
 }

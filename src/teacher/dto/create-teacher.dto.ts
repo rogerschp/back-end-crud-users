@@ -1,3 +1,4 @@
+import { Organization } from './../../organization/entities/organization.entity';
 import {
   IsDate,
   IsDateString,
@@ -6,12 +7,14 @@ import {
   Max,
   Min,
 } from 'class-validator';
+import { IsNull } from 'typeorm';
 
 export class CreateTeacherDto {
   @IsNotEmpty()
   cpf: string;
 
   @IsNotEmpty()
-  @IsDate()
   date_valid: Date;
+
+  organizationId: number;
 }

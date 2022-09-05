@@ -13,10 +13,11 @@ export class TeacherService {
   ) {}
 
   async createTeacher(CreateTeacherDto: CreateTeacherDto): Promise<Teacher> {
-    const { cpf, date_valid } = CreateTeacherDto;
+    const { cpf, date_valid, organizationId } = CreateTeacherDto;
     const teacher = await this.teacherRepository.create({
       cpf,
       date_valid,
+      organizationId,
     });
     await this.teacherRepository.save(teacher);
     return teacher;

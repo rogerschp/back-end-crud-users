@@ -1,13 +1,14 @@
+import { User } from './../../users/entities/user.entity';
 import { Organization } from './../../organization/entities/organization.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Type } from 'class-transformer';
-
 @Entity()
 export class Teacher {
   @PrimaryGeneratedColumn()
@@ -20,7 +21,13 @@ export class Teacher {
   @Column('text')
   date_valid: Date;
 
-  @OneToOne(() => Organization)
-  @JoinColumn()
-  idOrganization: Organization;
+  @Column()
+  organizationId: number;
+
+  @ManyToOne(() => Organization, (organization) => organization.teacher)
+  @JoinColumn({ name: 'organizationId', referencedColumnName: 'id' })
+  organization: Organization;
+
+  @OneToOne(() => User, (user) => user.teacher)
+  user: User;
 }
