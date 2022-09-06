@@ -1,4 +1,5 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { Teacher } from './../teacher/entities/teacher.entity';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -10,12 +11,16 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Teacher)
+    private teacherRepostory: Repository<Teacher>,
   ) {}
 
   async createUser(CreateUserDto: CreateUserDto): Promise<User> {
     const { name_user, birthday, email, password, organizationId, teacherId } =
       CreateUserDto;
+
     await this.getUserByEmail(email);
+
     const users = this.userRepository.create({
       name_user,
       birthday,
@@ -26,6 +31,7 @@ export class UsersService {
     });
 
     await this.userRepository.save(users);
+
     return users;
   }
 
@@ -40,7 +46,10 @@ export class UsersService {
   async getUserById(id: number): Promise<User> {
     const found = await this.userRepository.findOne({ where: { id } });
     if (!found) {
-      throw new NotFoundException(`User with ID "${id}" not found.`);
+      throw new HttpException(
+        `User with ID "${id}" not found.`,
+        HttpStatus.NOT_FOUND,
+      );
     }
     return found;
   }
@@ -49,7 +58,10 @@ export class UsersService {
     const query = await this.userRepository.findOne({ where: { email } });
 
     if (query) {
-      throw new HttpException('E-mail already on database', 400);
+      throw new HttpException(
+        'E-mail already on database',
+        HttpStatus.BAD_REQUEST,
+      );
     }
     return query;
   }
@@ -71,9 +83,19 @@ export class UsersService {
     return users;
   }
 
-  async remove(id: number): Promise<User> {
-    await this.getUserById(id);
-    await this.userRepository.softDelete(id);
-    return;
+  async deleteUser(id: number) {
+    const users = await this.getUserById(id);
+    if (users?.teacherId) {
+      console.log(this.teacherRepostory.findBy({ id: 1 }));
+      await this.teacherRepostory.softDelete(id);
+    }
+    try {
+      await this.userRepository.softDelete(id);
+    } catch {
+      throw new HttpException(
+        `Error deleting user "${id}"`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 }

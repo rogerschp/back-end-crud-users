@@ -32,15 +32,15 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: number,
+  updateUser(
+    @Param('/updateUser/id') id: number,
     @Body() UpdateUserDto: UpdateUserDto,
   ): Promise<User> {
     return this.usersService.updateUser(id, UpdateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete('/delete/:id')
+  deleteUser(@Param('id') id: number) {
+    return this.usersService.deleteUser(id);
   }
 }

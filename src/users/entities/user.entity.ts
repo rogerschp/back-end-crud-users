@@ -1,15 +1,16 @@
 import { Organization } from './../../organization/entities/organization.entity';
 import { Teacher } from '../../teacher/entities/teacher.entity';
 import {
+  BeforeInsert,
   Column,
   Entity,
-  IsNull,
   JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Type } from 'class-transformer';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User {
@@ -42,4 +43,10 @@ export class User {
   @ManyToOne(() => Organization, (organization) => organization.user)
   @JoinColumn({ name: 'organizationId', referencedColumnName: 'id' })
   organization: Organization;
+
+  @BeforeInsert()
+  async setPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(password || this.password, salt);
+  }
 }
