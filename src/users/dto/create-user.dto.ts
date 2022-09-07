@@ -1,11 +1,4 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  Length,
-  Matches,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, Length, Matches } from 'class-validator';
 
 const PASSWORD_RULE =
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;

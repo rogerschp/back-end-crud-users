@@ -1,7 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { UpdateUserDto } from './dto/update-user.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import {
   Controller,
   Get,
