@@ -10,7 +10,7 @@ import { UsersModule } from './users/users.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'Cathoud',
+      password: 'docker',
       database: 'Crud-Users',
       autoLoadEntities: true,
       synchronize: true,
